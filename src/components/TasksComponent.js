@@ -28,8 +28,9 @@ function TasksComponent() {
   const deleteCategory = async (id) => {
     const url = `http://127.0.0.1:8000/deletetasks/${id}`;
     await DeleteTask(url);
-    //console.log(id);
+    ReadTask();
   };
+
   const [tasks, setTasks] = useState([]);
   useEffect(() => {
     ReadTask();
@@ -47,7 +48,9 @@ function TasksComponent() {
   return (
     <>
       <Container>
-        <Button onClick={openModal}>insertar</Button>
+        <Button className="btn btn-success" onClick={openModal}>
+          insertar
+        </Button>
 
         <Table>
           <thead>
@@ -86,7 +89,7 @@ function TasksComponent() {
         </Table>
 
         <Modal show={isOpen} onHide={closeModal}>
-          <ModalHeader></ModalHeader>
+          <ModalHeader style={{ display: "block" }}></ModalHeader>
           <ModalBody>
             <div className="form-group">
               <label htmlFor="id">ID</label>
@@ -99,65 +102,15 @@ function TasksComponent() {
               />
               <br />
             </div>
+            <label htmlFor="id">ID</label>
+            <input className="form-control" type="text" name="id" id="id" />
+            <br />
           </ModalBody>
 
           <ModalFooter></ModalFooter>
         </Modal>
       </Container>
 
-      {/*    <form>
-        <div
-          class="modal fade"
-          id="exampleModal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                  Formulario de producto
-                </h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Nombre de producto </label>
-                  <input type="text" class="form-control" />
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">
-                    Descripcion de producto
-                  </label>
-                  <textarea class="form-control" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Precio</label>
-                  <input type="number" class="form-control" />
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Cancelar
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form> */}
       {/*   <Modal>
         <ModalHeader>
           <div>
