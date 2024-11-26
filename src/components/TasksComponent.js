@@ -49,7 +49,7 @@ function TasksComponent() {
     <>
       <Container>
         <Button className="btn btn-success" onClick={openModal}>
-          insertar
+          Crear tarea
         </Button>
 
         <Table>
@@ -93,13 +93,7 @@ function TasksComponent() {
           <ModalBody>
             <div className="form-group">
               <label htmlFor="id">ID</label>
-              <input
-                className="form-control"
-                type="text"
-                name="id"
-                id="id"
-                readOnly
-              />
+              <input className="form-control" type="text" name="id" id="id" />
               <br />
             </div>
             <label htmlFor="id">ID</label>

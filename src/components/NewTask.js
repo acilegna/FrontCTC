@@ -1,18 +1,13 @@
-import "./App.css";
-import TasksComponent from "./components/TasksComponent";
-import NewTask from "./components/NewTask";
-import { Button } from "reactstrap";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-
-function App() {
+import { Button } from "reactstrap";
+function NewTask() {
   const [Title, setTitle] = useState("");
   const [Description, setTDescription] = useState("");
   const [Date, setDate] = useState("");
   const [Location, setLocation] = useState("");
   const [Responsible, setResponsible] = useState("");
   const [Likes, setLikes] = useState("");
-
   const addTask = () => {
     //alert(Title);
 
@@ -99,5 +94,4 @@ function App() {
     </div>
   );
 }
-
-export default App;
+export default NewTask;
