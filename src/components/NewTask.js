@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
 
-function NewTask() {
-  /* function NewTask({ padreAHijo }) { */
+
+/* function NewTask() { */
+function NewTask({ sendNewTask }) {
+  console.log(sendNewTask);
   const [Title, setTitle] = useState("");
   const [Description, setTDescription] = useState("");
   const [Date, setDate] = useState("");
@@ -40,7 +42,7 @@ function NewTask() {
   return (
     <div className="container">
       <div>
-        <h2>Agregar tareas {/* {padreAHijo} */}</h2>
+        <h2>Agregar tareas </h2>
       </div>
       <div className="datos">
         <div className="input-group mb-3">
