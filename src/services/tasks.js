@@ -8,4 +8,4 @@ const DeleteTask = async (url) => {
   return axios.delete(url);
 };
 
-export { DeleteTask };
+export { DeleteTask, InsertTask };
