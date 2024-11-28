@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Container, Button } from "reactstrap";
+import { Table, Container } from "reactstrap";
 import axios from "axios";
 import NewTask from "./NewTask";
 
@@ -8,8 +8,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function TasksComponent() {
   const [tasks, setTasks] = useState([]);
   const [likes, setLikes] = useState(0);
+
   useEffect(() => {
-    ReadTask();
+    SelectTask();
   }, []);
 
   const addLikes = (id, likes) => {
@@ -17,17 +18,17 @@ function TasksComponent() {
     //alert(likes);
     axios.post(`http://127.0.0.1:8000/increment/${id}/${likes}`).then(() => {
       //alert("like registrado");
-      ReadTask();
+      SelectTask();
     });
   };
 
   const deleteCategory = (id) => {
     axios.delete(`http://127.0.0.1:8000/deletetasks/${id}`).then(() => {
       alert("tarea eliminada");
-      ReadTask();
+      SelectTask();
     });
   };
-  const ReadTask = () => {
+  const SelectTask = () => {
     fetch("http://127.0.0.1:8000/tasks")
       .then((res) => res.json())
       .then((result) => {
@@ -38,7 +39,7 @@ function TasksComponent() {
 
   /*  envio de Datos padre a hijo */
   const [datos, estableceDatos] = useState([]);
-  const sendNewTask = (tasks) => {
+  const sendToNewTask = (tasks) => {
     estableceDatos(tasks);
   };
 
@@ -47,7 +48,6 @@ function TasksComponent() {
       <Container>
         <Table>
           <thead>
-            {" "}
             <tr>
               <th>id</th>
               <th>title</th>
@@ -72,14 +72,14 @@ function TasksComponent() {
                 <td>{task.likes}</td>
                 <td>
                   <button
-                    className="btn btn-info"
-                    onClick={() => sendNewTask([tasks, task.id])}
+                    className="btn btn-info me-md-2"
+                    onClick={() => sendToNewTask(task.id)}
                   >
                     Edit
                   </button>
 
                   <button
-                    className="btn btn-danger"
+                    className="btn btn-danger me-md-2"
                     onClick={() => deleteCategory(task.id)}
                   >
                     Delete
@@ -100,7 +100,7 @@ function TasksComponent() {
           </tbody>
         </Table>
 
-        <NewTask sendNewTask={datos} />
+        <NewTask sendToNewTask={datos} />
       </Container>
     </>
   );

@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
 
-
-/* function NewTask() { */
-function NewTask({ sendNewTask }) {
-  console.log(sendNewTask);
+function NewTask({ sendToNewTask }) {
   const [Title, setTitle] = useState("");
   const [Description, setTDescription] = useState("");
   const [Date, setDate] = useState("");
   const [Location, setLocation] = useState("");
   const [Responsible, setResponsible] = useState("");
   const [Likes, setLikes] = useState("");
+  const [Id, setId] = useState("");
 
   const addTask = () => {
     axios
@@ -27,30 +25,70 @@ function NewTask({ sendNewTask }) {
         alert("tarea creada");
       });
   };
-  const [Editar, setEditar] = useState(false);
-  const editTask = (value) => {
-    setEditar = true;
+  ////////////////////fin insertar tarea/////////////////////////////////////////
 
-    setTitle(value.Title);
-    setTDescription(value.Description);
-    setDate(value.Title);
-    setLocation(value.Title);
-    setResponsible(value.Title);
-    setLikes(value.Likes);
+  // id enviada  de componente padre
+  const idTask = sendToNewTask;
+
+  const getTask = "http://127.0.0.1:8000/whereId/";
+
+  const [tasks, setTasks] = useState([]);
+
+  const url = getTask + idTask;
+
+  const allTask = () => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((result) => {
+        setTasks(result);
+        // console.log(result);
+      });
   };
 
+  //ejecutar al renderizar y al cambiar el valo de idTask
+  useEffect(() => {
+    allTask();
+  }, [idTask]);
+
+  //'/updatetasks/{id}
+
+  const updateTask = (id) => {
+    axios
+      .put(`http://127.0.0.1:8000/updatetasks/${id}`, {
+        title: Title,
+        description: Description,
+        date: Date,
+        location: Location,
+        responsible: Responsible,
+        likes: Likes,
+      })
+      .then(() => {
+        alert("tarea modificada");
+      });
+  };
+
+  //////////////////////////////////////////////////////////////////////////////////
   return (
     <div className="container">
       <div>
         <h2>Agregar tareas </h2>
       </div>
       <div className="datos">
+        <input
+          value={tasks.id}
+          type="hidden"
+          onChange={(event) => {
+            setId(event.target.value);
+          }}
+        />
         <div className="input-group mb-3">
           <span className="input-group-text" id="basic-addon1">
             Title
           </span>
+
           <input
             required
+            value={tasks.title}
             type="text"
             className="form-control"
             placeholder="Agrega un titulo"
@@ -67,6 +105,7 @@ function NewTask({ sendNewTask }) {
           </span>
           <input
             required
+            value={tasks.description}
             type="text"
             className="form-control"
             placeholder="Agrega una descripcion"
@@ -83,6 +122,7 @@ function NewTask({ sendNewTask }) {
           </span>
           <input
             required
+            value={tasks.date}
             type="date"
             className="form-control"
             placeholder="Ingresa una fecha"
@@ -99,6 +139,7 @@ function NewTask({ sendNewTask }) {
           </span>
           <input
             required
+            value={tasks.location}
             type="text"
             className="form-control"
             placeholder="Agrega una locacion"
@@ -115,6 +156,7 @@ function NewTask({ sendNewTask }) {
           </span>
           <input
             required
+            value={tasks.responsible}
             type="text"
             className="form-control"
             placeholder="Agrega un Responsable"
@@ -132,6 +174,7 @@ function NewTask({ sendNewTask }) {
           </span>
           <input
             required
+            value={tasks.likes}
             type="number"
             className="form-control"
             placeholder="Likes"
@@ -143,9 +186,10 @@ function NewTask({ sendNewTask }) {
           />
         </div>
 
-        <Button className="btn btn-success" onClick={addTask}>
+        <Button className="btn btn-success me-md-2" onClick={addTask}>
           Registrar
         </Button>
+        <Button className="btn btn-success">Guardar cambios</Button>
       </div>
     </div>
   );
