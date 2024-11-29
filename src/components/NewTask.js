@@ -30,17 +30,20 @@ function NewTask({ sendToNewTask }) {
   // id enviada  de componente padre
   const idTask = sendToNewTask;
 
-  const getTask = "http://127.0.0.1:8000/whereId/";
-
   const [tasks, setTasks] = useState([]);
 
-  const url = getTask + idTask;
-
   const allTask = () => {
-    fetch(url)
+    fetch(`http://127.0.0.1:8000/whereId/${idTask}`)
       .then((res) => res.json())
       .then((result) => {
         setTasks(result);
+        setId(result.id);
+        setTitle(result.title);
+        setTDescription(result.description);
+        setDate(result.date);
+        setLocation(result.location);
+        setResponsible(result.responsible);
+        setLikes(result.likes);
         // console.log(result);
       });
   };
@@ -53,7 +56,8 @@ function NewTask({ sendToNewTask }) {
   //'/updatetasks/{id}
 
   const updateTask = (id) => {
-    axios
+    console.log("ds");
+    /*  axios
       .put(`http://127.0.0.1:8000/updatetasks/${id}`, {
         title: Title,
         description: Description,
@@ -64,7 +68,7 @@ function NewTask({ sendToNewTask }) {
       })
       .then(() => {
         alert("tarea modificada");
-      });
+      }); */
   };
 
   //////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +79,7 @@ function NewTask({ sendToNewTask }) {
       </div>
       <div className="datos">
         <input
-          value={tasks.id}
+          value={Id}
           type="hidden"
           onChange={(event) => {
             setId(event.target.value);
@@ -88,7 +92,7 @@ function NewTask({ sendToNewTask }) {
 
           <input
             required
-            value={tasks.title}
+            value={Title}
             type="text"
             className="form-control"
             placeholder="Agrega un titulo"
@@ -105,7 +109,8 @@ function NewTask({ sendToNewTask }) {
           </span>
           <input
             required
-            value={tasks.description}
+            /* value={tasks.description} */
+            value={Description}
             type="text"
             className="form-control"
             placeholder="Agrega una descripcion"
@@ -122,7 +127,7 @@ function NewTask({ sendToNewTask }) {
           </span>
           <input
             required
-            value={tasks.date}
+            value={Date}
             type="date"
             className="form-control"
             placeholder="Ingresa una fecha"
@@ -139,7 +144,7 @@ function NewTask({ sendToNewTask }) {
           </span>
           <input
             required
-            value={tasks.location}
+            value={Location}
             type="text"
             className="form-control"
             placeholder="Agrega una locacion"
@@ -156,7 +161,7 @@ function NewTask({ sendToNewTask }) {
           </span>
           <input
             required
-            value={tasks.responsible}
+            value={Responsible}
             type="text"
             className="form-control"
             placeholder="Agrega un Responsable"
@@ -189,7 +194,9 @@ function NewTask({ sendToNewTask }) {
         <Button className="btn btn-success me-md-2" onClick={addTask}>
           Registrar
         </Button>
-        <Button className="btn btn-success">Guardar cambios</Button>
+        <Button className="btn btn-file" onClick={updateTask(Id)}>
+          Guardar cambios
+        </Button>
       </div>
     </div>
   );

@@ -79,7 +79,7 @@ function TasksComponent() {
                   </button>
 
                   <button
-                    className="btn btn-danger me-md-2"
+                    className="btn btn-danger "
                     onClick={() => deleteCategory(task.id)}
                   >
                     Delete
