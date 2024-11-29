@@ -8,7 +8,6 @@ function NewTask({ sendToNewTask }) {
   const [Date, setDate] = useState("");
   const [Location, setLocation] = useState("");
   const [Responsible, setResponsible] = useState("");
-  const [Likes, setLikes] = useState("");
   const [Id, setId] = useState("");
 
   const addTask = () => {
@@ -19,58 +18,52 @@ function NewTask({ sendToNewTask }) {
         date: Date,
         location: Location,
         responsible: Responsible,
-        likes: Likes,
       })
       .then(() => {
         alert("tarea creada");
       });
   };
+
   ////////////////////fin insertar tarea/////////////////////////////////////////
+  //error en consola por no tener valor idtaskk hasta q se da clic el boton
 
-  // id enviada  de componente padre
   const idTask = sendToNewTask;
-
-  const [tasks, setTasks] = useState([]);
+  const getTask = "http://127.0.0.1:8000/whereId/";
+  const url = getTask + idTask;
 
   const allTask = () => {
-    fetch(`http://127.0.0.1:8000/whereId/${idTask}`)
+    fetch(url)
       .then((res) => res.json())
       .then((result) => {
-        setTasks(result);
         setId(result.id);
         setTitle(result.title);
-        setTDescription(result.description);
         setDate(result.date);
         setLocation(result.location);
         setResponsible(result.responsible);
-        setLikes(result.likes);
+        setTDescription(result.description);
         // console.log(result);
       });
   };
 
-  //ejecutar al renderizar y al cambiar el valo de idTask
+  //ejecutar al renderizar y al cambiar el valo de idTask q manda el boton editar
   useEffect(() => {
     allTask();
   }, [idTask]);
 
-  //'/updatetasks/{id}
-
   const updateTask = (id) => {
-    console.log("ds");
-    /*  axios
+    axios
       .put(`http://127.0.0.1:8000/updatetasks/${id}`, {
         title: Title,
         description: Description,
         date: Date,
         location: Location,
         responsible: Responsible,
-        likes: Likes,
       })
       .then(() => {
         alert("tarea modificada");
-      }); */
+      });
+    //console.log(id);
   };
-
   //////////////////////////////////////////////////////////////////////////////////
   return (
     <div className="container">
@@ -85,6 +78,7 @@ function NewTask({ sendToNewTask }) {
             setId(event.target.value);
           }}
         />
+
         <div className="input-group mb-3">
           <span className="input-group-text" id="basic-addon1">
             Title
@@ -173,28 +167,10 @@ function NewTask({ sendToNewTask }) {
           />
         </div>
 
-        <div className="input-group mb-3">
-          <span className="input-group-text" id="basic-addon1">
-            Likes
-          </span>
-          <input
-            required
-            value={tasks.likes}
-            type="number"
-            className="form-control"
-            placeholder="Likes"
-            aria-label="Likes"
-            aria-describedby="basic-addon1"
-            onChange={(event) => {
-              setLikes(event.target.value);
-            }}
-          />
-        </div>
-
         <Button className="btn btn-success me-md-2" onClick={addTask}>
           Registrar
         </Button>
-        <Button className="btn btn-file" onClick={updateTask(Id)}>
+        <Button className="btn btn-file" onClick={() => updateTask(Id)}>
           Guardar cambios
         </Button>
       </div>

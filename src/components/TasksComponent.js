@@ -2,29 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Table, Container } from "reactstrap";
 import axios from "axios";
 import NewTask from "./NewTask";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function TasksComponent() {
   const [tasks, setTasks] = useState([]);
-  const [likes, setLikes] = useState(0);
+  const likes = 1;
 
   useEffect(() => {
     SelectTask();
   }, []);
 
   const addLikes = (id, likes) => {
-    //alert(id);
-    //alert(likes);
     axios.post(`http://127.0.0.1:8000/increment/${id}/${likes}`).then(() => {
-      //alert("like registrado");
       SelectTask();
     });
   };
 
   const deleteCategory = (id) => {
     axios.delete(`http://127.0.0.1:8000/deletetasks/${id}`).then(() => {
-      alert("tarea eliminada");
       SelectTask();
     });
   };
@@ -36,11 +31,10 @@ function TasksComponent() {
         //console.log(result);
       });
   };
-
   /*  envio de Datos padre a hijo */
-  const [datos, estableceDatos] = useState([]);
+  const [datos, setDatos] = useState([]);
   const sendToNewTask = (tasks) => {
-    estableceDatos(tasks);
+    setDatos(tasks);
   };
 
   return (
@@ -79,7 +73,7 @@ function TasksComponent() {
                   </button>
 
                   <button
-                    className="btn btn-danger "
+                    className="btn btn-danger me-md-2"
                     onClick={() => deleteCategory(task.id)}
                   >
                     Delete
@@ -87,10 +81,7 @@ function TasksComponent() {
 
                   <button
                     className="btn btn-primary"
-                    onClick={
-                      /* () => setLikes(likes + 1), */
-                      () => addLikes(task.id, likes + 1)
-                    }
+                    onClick={() => addLikes(task.id, likes)}
                   >
                     Like
                   </button>
@@ -99,8 +90,7 @@ function TasksComponent() {
             ))}
           </tbody>
         </Table>
-
-        <NewTask sendToNewTask={datos} />
+        <NewTask sendToNewTask={datos}></NewTask>
       </Container>
     </>
   );
