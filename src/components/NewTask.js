@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
+import TasksComponent from "./TasksComponent";
 
-function NewTask({ sendToNewTask }) {
+function NewTask({ sendToNewTask, SelectTask }) {
   const [Title, setTitle] = useState("");
   const [Description, setTDescription] = useState("");
   const [Date, setDate] = useState("");
@@ -20,7 +21,8 @@ function NewTask({ sendToNewTask }) {
         responsible: Responsible,
       })
       .then(() => {
-        alert("tarea creada");
+        SelectTask();
+        //alert("tarea creada");
       });
   };
 
@@ -60,7 +62,8 @@ function NewTask({ sendToNewTask }) {
         responsible: Responsible,
       })
       .then(() => {
-        alert("tarea modificada");
+        // alert("tarea modificada");
+        SelectTask();
       });
     //console.log(id);
   };

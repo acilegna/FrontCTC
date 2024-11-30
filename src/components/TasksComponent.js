@@ -90,7 +90,8 @@ function TasksComponent() {
             ))}
           </tbody>
         </Table>
-        <NewTask sendToNewTask={datos}></NewTask>
+        {/*  ENVIO DE DATOS A COMPONENTE HIJO  */}
+        <NewTask sendToNewTask={datos} SelectTask={SelectTask}></NewTask>
       </Container>
     </>
   );
