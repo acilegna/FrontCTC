@@ -1,12 +1,15 @@
 import "./App.css";
-import TasksComponent from "./components/TasksComponent";
-import NewTask from "./components/NewTask";
+
+import TasksComponent from "./components/Tareas/TasksComponent";
+import NewTask from "./components/Tareas/NewTask";
+import LoginComponent from "./login/Login";
 
 function App() {
   return (
     <div className="App">
-      <TasksComponent></TasksComponent>
-      {/* <NewTask></NewTask> */}
+     {/*  <TasksComponent></TasksComponent> */}
+      <LoginComponent></LoginComponent>
+      {/*   <NewTask></NewTask> */}
     </div>
   );
 }
