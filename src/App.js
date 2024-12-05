@@ -2,16 +2,26 @@ import "./App.css";
 
 import TasksComponent from "./components/Tareas/TasksComponent";
 import NewTask from "./components/Tareas/NewTask";
-import LoginComponent from "./login/Login";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginComponent from "./components/login/Login";
 
 function App() {
   return (
-    <div className="App">
-     {/*  <TasksComponent></TasksComponent> */}
-      <LoginComponent></LoginComponent>
-      {/*   <NewTask></NewTask> */}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LoginComponent />} />
+        <Route path="/tareas" element={<TasksComponent />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
+
+{
+  /* <div className="App">
+ 
+  <LoginComponent></LoginComponent>
+</div>;
+ */
+}
