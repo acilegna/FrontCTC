@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Table, Container } from "reactstrap";
 import axios from "axios";
 import NewTask from "./NewTask";
+import { useAuth } from "../../provider/AuthProvide";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function TasksComponent() {
+  const { user, logout } = useAuth();
   const [tasks, setTasks] = useState([]);
   const likes = 1;
 
@@ -42,6 +44,7 @@ function TasksComponent() {
       <Container>
         <Table>
           <thead>
+            {user}
             <tr>
               <th>id</th>
               <th>title</th>

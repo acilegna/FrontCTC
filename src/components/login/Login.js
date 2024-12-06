@@ -6,10 +6,11 @@ import { useNavigate } from "react-router";
 function LoginComponent() {
   let navigate = useNavigate();
   const [Email, setEmail] = useState("");
-  const [Password, setTPassword] = useState("");
+  const [Password, setPassword] = useState("");
 
   const [btnDisable, SetBtnDisable] = useState(true);
   const [token, setToken] = useState("");
+  const [user, setUser] = useState("");
 
   //si no estan vacios habilitar boton , se activa una vez se renderice, para evitar error
   //agregamo sparametro y se renderice tambien una vez haya cambiado valor del campo password EMAIL
@@ -29,10 +30,25 @@ function LoginComponent() {
         setToken(response.data.access_token);
         console.log(token);
         //redirigir a Tareas
-        navigate("/tareas");
+        // navigate("/tareas");
       })
       .catch((error) => {
         console.log(error);
+      });
+  };
+
+  const userLogin = () => {
+    axios.post("http://127.0.0.1:8000/api/auth/me", { token }).then((res) => {
+      setUser(res.data.email);
+      console.log(user);
+    });
+  };
+
+  const LogOut = () => {
+    axios
+      .post("http://127.0.0.1:8000/api/auth/logout", { token })
+      .then((result) => {
+        alert(result.data.message);
       });
   };
 
@@ -58,7 +74,7 @@ function LoginComponent() {
           className="form-control"
           id="exampleInputPassword1"
           onChange={(event) => {
-            setTPassword(event.target.value);
+            setPassword(event.target.value);
           }}
           required
         />
@@ -66,6 +82,12 @@ function LoginComponent() {
 
       <button className="btn btn-primary" onClick={login} disabled={btnDisable}>
         Like
+      </button>
+      <button className="btn btn-primary" onClick={userLogin}>
+        nuevo
+      </button>
+      <button className="btn btn-primary" onClick={LogOut}>
+        logout
       </button>
     </div>
   );
