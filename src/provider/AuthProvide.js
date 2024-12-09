@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+
 const AuthContext = createContext();
 
 export function useAuth() {
@@ -8,29 +11,32 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState("");
+  const [name, setName] = useState("");
+  let navigate = useNavigate();
 
-  const login = (email, password) => {
-     
+  const login = (Email, Password) => {
     axios
       .post("http://127.0.0.1:8000/api/auth/login/", {
-        email: email,
-        password: password,
+        email: Email,
+        password: Password,
       })
       .then((response) => {
         setToken(response.data.access_token);
         console.log(token);
-        userLogin();
-
-        //redirigir a Tareas
-        // navigate("/tareas");
+        if (token) {
+          userLogin();
+          //redirigir a Tareas
+          return navigate("/tareas");
+        }
       })
       .catch((error) => {
-        console.log(error);
+        Swal.fire("Datos incorrectos");
       });
   };
   const userLogin = () => {
     axios.post("http://127.0.0.1:8000/api/auth/me", { token }).then((res) => {
       setUser(res.data.email);
+      setName(res.data.name);
       console.log(user);
     });
   };
@@ -43,7 +49,7 @@ export function AuthProvider({ children }) {
       });
   };
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, name, login, token, logout }}>
       {children}
     </AuthContext.Provider>
   );

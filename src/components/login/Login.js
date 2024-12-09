@@ -1,63 +1,33 @@
-import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useAuth } from "../../provider/AuthProvide";
 
-function LoginComponent() {
-  let navigate = useNavigate();
+const LoginComponent = () => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
-
   const [btnDisable, SetBtnDisable] = useState(true);
-  const [token, setToken] = useState("");
-  const [user, setUser] = useState("");
+  const auth = useAuth();
 
-  //si no estan vacios habilitar boton , se activa una vez se renderice, para evitar error
-  //agregamo sparametro y se renderice tambien una vez haya cambiado valor del campo password EMAIL
   useEffect(() => {
     if (Email != "" && Password != "") {
       SetBtnDisable(false);
     } else SetBtnDisable(true);
   }, [Password, Email]);
 
-  const login = () => {
-    axios
-      .post("http://127.0.0.1:8000/api/auth/login/", {
-        email: Email,
-        password: Password,
-      })
-      .then((response) => {
-        setToken(response.data.access_token);
-        console.log(token);
-        //redirigir a Tareas
-        // navigate("/tareas");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const userLogin = () => {
-    axios.post("http://127.0.0.1:8000/api/auth/me", { token }).then((res) => {
-      setUser(res.data.email);
-      console.log(user);
-    });
-  };
-
-  const LogOut = () => {
-    axios
-      .post("http://127.0.0.1:8000/api/auth/logout", { token })
-      .then((result) => {
-        alert(result.data.message);
-      });
+  const SendData = () => {
+    if (Email !== "" && Password !== "") {
+      auth.login(Email, Password);
+     return;
+    }
+    alert("please provide a valid input");
   };
 
   return (
     <div className="container">
       <div className="mb-3">
-        <label className="form-label">Email address</label>
+        <label className="form-label">Email addresssffd</label>
         <input
           type="email"
+          name="email"
           className="form-control"
           id="exampleInputEmail1"
           aria-describedby="emailHelp"
@@ -71,6 +41,7 @@ function LoginComponent() {
         <label className="form-label">Password</label>
         <input
           type="password"
+          name="password"
           className="form-control"
           id="exampleInputPassword1"
           onChange={(event) => {
@@ -80,16 +51,15 @@ function LoginComponent() {
         />
       </div>
 
-      <button className="btn btn-primary" onClick={login} disabled={btnDisable}>
-        Like
-      </button>
-      <button className="btn btn-primary" onClick={userLogin}>
-        nuevo
-      </button>
-      <button className="btn btn-primary" onClick={LogOut}>
-        logout
+      <button
+        className="btn btn-primary"
+        onClick={SendData}
+        disabled={btnDisable}
+      >
+        Login
       </button>
     </div>
   );
-}
+};
+
 export default LoginComponent;

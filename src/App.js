@@ -1,26 +1,13 @@
 import "./App.css";
-import TasksComponent from "./components/Tareas/TasksComponent";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginComponent from "./components/login/Login";
-
-import { AuthProvider } from "./provider/AuthProvide";
-import Logear from "./components/login/Logear";
+import "bootstrap/dist/css/bootstrap.min.css";
+import AllRoutes from "./route/AllRoutes";
 
 function App() {
   return (
-    <AuthProvider>
-      <Logear />
-      <TasksComponent/>
-    </AuthProvider>
+    <div className="App">
+      <AllRoutes />
+    </div>
   );
-  /* return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LoginComponent />} />
-        <Route path="/tareas" element={<TasksComponent />} />
-      </Routes>
-    </BrowserRouter>
-  ); */
 }
 
 export default App;

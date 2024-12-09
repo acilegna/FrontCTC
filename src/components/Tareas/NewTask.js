@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
-import TasksComponent from "../TasksComponent";
+//import TasksComponent from "../TasksComponent";
 
 function NewTask({ sendToNewTask, SelectTask }) {
   const [Title, setTitle] = useState("");

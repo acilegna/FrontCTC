@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Table, Container } from "reactstrap";
 import axios from "axios";
 import NewTask from "./NewTask";
-import { useAuth } from "../../provider/AuthProvide";
+//import { useAuth } from "../../provider/AuthProvide";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function TasksComponent() {
-  const { user, logout } = useAuth();
+  //const { user, logout ,name} = useAuth();
   const [tasks, setTasks] = useState([]);
   const likes = 1;
 
@@ -44,7 +44,10 @@ function TasksComponent() {
       <Container>
         <Table>
           <thead>
-            {user}
+           {/*  <h1>
+              {user}
+              {name}
+            </h1> */}
             <tr>
               <th>id</th>
               <th>title</th>
