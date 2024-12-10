@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+
+
 
 const AuthContext = createContext();
 
@@ -9,10 +10,10 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 export function AuthProvider({ children }) {
+ 
   const [user, setUser] = useState(null);
   const [token, setToken] = useState("");
   const [name, setName] = useState("");
-  let navigate = useNavigate();
 
   const login = (Email, Password) => {
     axios
@@ -25,8 +26,7 @@ export function AuthProvider({ children }) {
         console.log(token);
         if (token) {
           userLogin();
-          //redirigir a Tareas
-          return navigate("/tareas");
+      
         }
       })
       .catch((error) => {
@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
     axios.post("http://127.0.0.1:8000/api/auth/me", { token }).then((res) => {
       setUser(res.data.email);
       setName(res.data.name);
-      console.log(user);
+      console.log(name);
     });
   };
 

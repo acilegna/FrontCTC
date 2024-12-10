@@ -1,24 +1,26 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../provider/AuthProvide";
-
+import { Navigate } from "react-router-dom";
 const LoginComponent = () => {
   const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [Pass, setPass] = useState("");
   const [btnDisable, SetBtnDisable] = useState(true);
-  const auth = useAuth();
 
+  const auth = useAuth();
   useEffect(() => {
-    if (Email != "" && Password != "") {
+    if (Email != "" && Pass != "") {
       SetBtnDisable(false);
     } else SetBtnDisable(true);
-  }, [Password, Email]);
+  }, [Pass, Email]);
 
-  const SendData = () => {
-    if (Email !== "" && Password !== "") {
-      auth.login(Email, Password);
-     return;
-    }
-    alert("please provide a valid input");
+  const SendData = ( ) => {
+    
+    auth.login(Email, Pass);
+
+    // return;
+    console.log(Pass);
+
+    //  alert("please provide a valid input");
   };
 
   return (
@@ -41,11 +43,11 @@ const LoginComponent = () => {
         <label className="form-label">Password</label>
         <input
           type="password"
-          name="password"
+          name="pass"
           className="form-control"
           id="exampleInputPassword1"
           onChange={(event) => {
-            setPassword(event.target.value);
+            setPass(event.target.value);
           }}
           required
         />
@@ -58,6 +60,7 @@ const LoginComponent = () => {
       >
         Login
       </button>
+      
     </div>
   );
 };
