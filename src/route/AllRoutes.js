@@ -1,5 +1,4 @@
 import React from "react";
-
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginComponent from "../components/login/Login";
 import TasksComponent from "../components/Tareas/TasksComponent";

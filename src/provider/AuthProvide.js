@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-
-
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -10,12 +9,12 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 export function AuthProvider({ children }) {
- 
   const [user, setUser] = useState(null);
   const [token, setToken] = useState("");
   const [name, setName] = useState("");
+  const navigate = useNavigate();
 
-  const login = (Email, Password) => {
+  const login = async (Email, Password) => {
     axios
       .post("http://127.0.0.1:8000/api/auth/login/", {
         email: Email,
@@ -24,10 +23,12 @@ export function AuthProvider({ children }) {
       .then((response) => {
         setToken(response.data.access_token);
         console.log(token);
+        navigate("/tareas ");
+
         if (token) {
           userLogin();
-      
         }
+        return;
       })
       .catch((error) => {
         Swal.fire("Datos incorrectos");
