@@ -9,6 +9,7 @@ function NewTask({ sendToNewTask, SelectTask }) {
   const [Date, setDate] = useState("");
   const [Location, setLocation] = useState("");
   const [Responsible, setResponsible] = useState("");
+  const [Status, setStatus] = useState("");
   const [Id, setId] = useState("");
 
   const addTask = () => {
@@ -19,6 +20,7 @@ function NewTask({ sendToNewTask, SelectTask }) {
         date: Date,
         location: Location,
         responsible: Responsible,
+        status: Status,
       })
       .then(() => {
         SelectTask();
@@ -42,6 +44,7 @@ function NewTask({ sendToNewTask, SelectTask }) {
         setDate(result.date);
         setLocation(result.location);
         setResponsible(result.responsible);
+        setStatus(result.status);
         setTDescription(result.description);
         // console.log(result);
       });
@@ -60,6 +63,7 @@ function NewTask({ sendToNewTask, SelectTask }) {
         date: Date,
         location: Location,
         responsible: Responsible,
+        status: Status,
       })
       .then(() => {
         // alert("tarea modificada");
@@ -166,6 +170,24 @@ function NewTask({ sendToNewTask, SelectTask }) {
             aria-describedby="basic-addon1"
             onChange={(event) => {
               setResponsible(event.target.value);
+            }}
+          />
+        </div>
+
+        <div className="input-group mb-3">
+          <span className="input-group-text" id="basic-addon1">
+            Status
+          </span>
+          <input
+            required
+            value={Status}
+            type="text"
+            className="form-control"
+            placeholder="Agrega un Responsable"
+            aria-label="Status"
+            aria-describedby="basic-addon1"
+            onChange={(event) => {
+              setStatus(event.target.value);
             }}
           />
         </div>

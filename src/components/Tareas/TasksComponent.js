@@ -44,7 +44,7 @@ function TasksComponent() {
       <Container>
         <Table>
           <thead>
-           {/*  <h1>
+            {/*  <h1>
               {user}
               {name}
             </h1> */}
@@ -55,6 +55,7 @@ function TasksComponent() {
               <th>date</th>
               <th>locacion</th>
               <th>responsable</th>
+              <th>status</th>
               <th>likes</th>
               <th>Operaciones</th>
             </tr>
@@ -69,6 +70,7 @@ function TasksComponent() {
                 <td>{task.date}</td>
                 <td>{task.location}</td>
                 <td>{task.responsible}</td>
+                <td>{task.status}</td>
                 <td>{task.likes}</td>
                 <td>
                   <button
