@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
-//import TasksComponent from "../TasksComponent";
 
-function NewTask({ sendToNewTask, SelectTask }) {
+function NewTask({ sendId, allTasks, valueBoton }) {
   const [Title, setTitle] = useState("");
   const [Description, setTDescription] = useState("");
   const [Date, setDate] = useState("");
@@ -12,6 +11,14 @@ function NewTask({ sendToNewTask, SelectTask }) {
   const [Status, setStatus] = useState("");
   const [Id, setId] = useState("");
 
+  const [btnEnable, SetBtnEnable] = useState(true);
+
+  //CREANOO  REVISAR
+  const funcion = () => {
+    if (valueBoton == 1) {
+      clearTask();
+    }
+  };
   const addTask = () => {
     axios
       .post("http://127.0.0.1:8000/newtasks", {
@@ -23,7 +30,8 @@ function NewTask({ sendToNewTask, SelectTask }) {
         status: Status,
       })
       .then(() => {
-        SelectTask();
+        allTasks();
+        clearTask();
         //alert("tarea creada");
       });
   };
@@ -31,11 +39,10 @@ function NewTask({ sendToNewTask, SelectTask }) {
   ////////////////////fin insertar tarea/////////////////////////////////////////
   //error en consola por no tener valor idtaskk hasta q se da clic el boton
 
-  const idTask = sendToNewTask;
+  const idTask = sendId;
   const getTask = "http://127.0.0.1:8000/whereId/";
   const url = getTask + idTask;
-
-  const allTask = () => {
+  const allTaskWhere = () => {
     fetch(url)
       .then((res) => res.json())
       .then((result) => {
@@ -52,9 +59,11 @@ function NewTask({ sendToNewTask, SelectTask }) {
 
   //ejecutar al renderizar y al cambiar el valo de idTask q manda el boton editar
   useEffect(() => {
-    allTask();
+    allTaskWhere();
+    
   }, [idTask]);
 
+  //Modificar tareas
   const updateTask = (id) => {
     axios
       .put(`http://127.0.0.1:8000/updatetasks/${id}`, {
@@ -67,15 +76,28 @@ function NewTask({ sendToNewTask, SelectTask }) {
       })
       .then(() => {
         // alert("tarea modificada");
-        SelectTask();
+        allTasks();
+        clearTask();
       });
     //console.log(id);
   };
   //////////////////////////////////////////////////////////////////////////////////
+
+  //Limpiar campos
+  const clearTask = () => {
+    setId("");
+    setTitle("");
+    setTDescription("");
+    setDate("");
+    setLocation("");
+    setResponsible("");
+    setStatus("");
+  };
   return (
     <div className="container">
       <div>
         <h2>Agregar tareas </h2>
+        {valueBoton}
       </div>
       <div className="datos">
         <input
@@ -85,7 +107,6 @@ function NewTask({ sendToNewTask, SelectTask }) {
             setId(event.target.value);
           }}
         />
-
         <div className="input-group mb-3">
           <span className="input-group-text" id="basic-addon1">
             Title
@@ -173,7 +194,6 @@ function NewTask({ sendToNewTask, SelectTask }) {
             }}
           />
         </div>
-
         <div className="input-group mb-3">
           <span className="input-group-text" id="basic-addon1">
             Status
@@ -192,14 +212,26 @@ function NewTask({ sendToNewTask, SelectTask }) {
           />
         </div>
 
-        <Button className="btn btn-success me-md-2" onClick={addTask}>
+        <Button
+          className="btn btn-success me-md-2"
+          onClick={addTask}
+          disabled={btnEnable}
+        >
           Registrar
         </Button>
-        <Button className="btn btn-file" onClick={() => updateTask(Id)}>
+        <Button
+          className="btn btn-file"
+          onClick={() => updateTask(Id)}
+          disabled={btnEnable}
+        >
           Guardar cambios
+        </Button>
+        <Button className="btn btn-file" onClick={() => clearTask()}>
+          Cancelar
         </Button>
       </div>
     </div>
   );
 }
+
 export default NewTask;
