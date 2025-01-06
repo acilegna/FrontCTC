@@ -9,7 +9,19 @@ function TasksComponent() {
   const [tasks, setTasks] = useState([]);
 
   const [show, setShow] = useState(false);
+  const [statusBtnNew, setStatusBtnNew] = useState(false);
+  const [statusBtnEdit, setStatusBtnEdit] = useState(false);
   const [valueBtn, setValueBtn] = useState(0);
+
+  // Recibe datos de hijo(Newtask)a padre (TaskComponent)
+  const hijoAPadre = (BtnNew, BtnEdit, show, valueBtn) => {
+    setStatusBtnNew(BtnNew);
+    setStatusBtnEdit(BtnEdit);
+    setShow(show);
+    setValueBtn(valueBtn);
+    sendId(valueBtn);
+  };
+  //End
 
   const likes = 1;
 
@@ -37,7 +49,6 @@ function TasksComponent() {
       .then((res) => res.json())
       .then((result) => {
         setTasks(result);
-        //console.log(result);
       });
   };
 
@@ -47,15 +58,9 @@ function TasksComponent() {
   const sendId = (id_tasks) => {
     setId(id_tasks);
   };
+  /*  END   */
 
-  //MODIFICANDO
-  const change = () => {
-    if (show == false) {
-      setShow(true);
-    }
-  };
-
-  //Funciones para generar reporte
+  //Funciones para generar reporte api ruby on rails
   const getPopular = () => {
     axios
       .get("http://127.0.0.1:3001/popularTask")
@@ -73,7 +78,9 @@ function TasksComponent() {
       })
       .catch((error) => console.log(error));
   };
+  // END
 
+  //  obtener valor del btn que ha sido presionado
   const valueBoton = (event) => {
     setValueBtn(event.target.id);
   };
@@ -110,14 +117,12 @@ function TasksComponent() {
                 <td>
                   <button
                     className="btn btn-info me-md-2"
+                    disabled={statusBtnEdit}
                     onClick={(event) => {
+                      setStatusBtnNew(true);
                       valueBoton(event);
-                      if (show == true) {
-                        sendId(task.id);
-                      } else if (show == false) {
-                        setShow(true);
-                        sendId(task.id);
-                      }
+                      sendId(task.id);
+                      setShow(true);
                     }}
                     id={"2"}
                   >
@@ -140,17 +145,19 @@ function TasksComponent() {
             ))}
           </tbody>
         </Table>
-        <button className="btn btn-primary" onClick={getReport}>
+        <button className="btn btn-primary me-md-2" onClick={getReport}>
           Reporte pendiente
         </button>
-        <button className="btn btn-primary" onClick={getPopular}>
+        <button className="btn btn-primary me-md-2" onClick={getPopular}>
           Reporte popular
         </button>
         <button
-          className="btn btn-primary"
+          className="btn btn-primary me-md-2"
+          disabled={statusBtnNew}
           onClick={(event) => {
-            change();
+            setShow(true);
             valueBoton(event);
+            setStatusBtnEdit(true);
           }}
           id={"1"}
         >
@@ -159,11 +166,13 @@ function TasksComponent() {
 
         {/*  ENVIO DE DATOS A COMPONENTE HIJO , id de tarea para editar , 
         funcion allTasks para actualizar tabla de dtos,  valueBoton detectar boton presionado */}
+
         {show ? (
           <NewTask
             sendId={id}
             allTasks={allTasks}
             valueBoton={valueBtn}
+            hijoAPadre={hijoAPadre}
           ></NewTask>
         ) : null}
       </Container>

@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
+import { render } from "@testing-library/react";
 
-function NewTask({ sendId, allTasks, valueBoton }) {
+function NewTask({ sendId, allTasks, valueBoton, hijoAPadre }) {
+  //enviar a componente padre
+  const statusBtnNew = false;
+  const statusBtnEdit = false;
+  const show = false;
+  const valueBtn = 0;
+  //fin
+
   const [Title, setTitle] = useState("");
   const [Description, setTDescription] = useState("");
   const [Date, setDate] = useState("");
@@ -11,14 +19,6 @@ function NewTask({ sendId, allTasks, valueBoton }) {
   const [Status, setStatus] = useState("");
   const [Id, setId] = useState("");
 
-  const [btnEnable, SetBtnEnable] = useState(true);
-
-  //CREANOO  REVISAR
-  const funcion = () => {
-    if (valueBoton == 1) {
-      clearTask();
-    }
-  };
   const addTask = () => {
     axios
       .post("http://127.0.0.1:8000/newtasks", {
@@ -60,7 +60,6 @@ function NewTask({ sendId, allTasks, valueBoton }) {
   //ejecutar al renderizar y al cambiar el valo de idTask q manda el boton editar
   useEffect(() => {
     allTaskWhere();
-    
   }, [idTask]);
 
   //Modificar tareas
@@ -93,11 +92,11 @@ function NewTask({ sendId, allTasks, valueBoton }) {
     setResponsible("");
     setStatus("");
   };
+
   return (
     <div className="container">
       <div>
         <h2>Agregar tareas </h2>
-        {valueBoton}
       </div>
       <div className="datos">
         <input
@@ -211,22 +210,36 @@ function NewTask({ sendId, allTasks, valueBoton }) {
             }}
           />
         </div>
+        {valueBoton != 2 ? (
+          <Button
+            className="btn btn-success me-md-2"
+            onClick={() => {
+              addTask();
+              hijoAPadre(statusBtnNew, statusBtnEdit, show, valueBtn);
+            }}
+          >
+            Registrar
+          </Button>
+        ) : null}
+        {valueBoton != 1 ? (
+          <Button
+            className="btn btn-file me-md-2"
+            onClick={() => {
+              updateTask(Id);
+              hijoAPadre(statusBtnNew, statusBtnEdit, show, valueBtn);
+            }}
+          >
+            Guardar cambios
+          </Button>
+        ) : null}
 
         <Button
-          className="btn btn-success me-md-2"
-          onClick={addTask}
-          disabled={btnEnable}
-        >
-          Registrar
-        </Button>
-        <Button
           className="btn btn-file"
-          onClick={() => updateTask(Id)}
-          disabled={btnEnable}
+          onClick={() => {
+            clearTask();
+            hijoAPadre(statusBtnNew, statusBtnEdit, show, valueBtn);
+          }}
         >
-          Guardar cambios
-        </Button>
-        <Button className="btn btn-file" onClick={() => clearTask()}>
           Cancelar
         </Button>
       </div>
