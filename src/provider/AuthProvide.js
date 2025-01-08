@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
       })
       .then((response) => {
         setToken(response.data.access_token);
-        console.log(token);
+       // console.log(token);
         navigate("/tareas ");
 
         if (token) {
@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
     axios.post("http://127.0.0.1:8000/api/auth/me", { token }).then((res) => {
       setUser(res.data.email);
       setName(res.data.name);
-      console.log(name);
+     // console.log(name);
     });
   };
 
@@ -46,8 +46,12 @@ export function AuthProvider({ children }) {
     axios
       .post("http://127.0.0.1:8000/api/auth/logout", { token })
       .then((result) => {
-        alert(result.data.message);
+        //alert(result.data.message);
+        setToken("");
+        setUser(null);
+         navigate("/login");
       });
+   
   };
   return (
     <AuthContext.Provider value={{ user, name, login, token, logout }}>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
-import { render } from "@testing-library/react";
-
+ 
 function NewTask({ sendId, allTasks, valueBoton, hijoAPadre }) {
   //enviar a componente padre
   const statusBtnNew = false;

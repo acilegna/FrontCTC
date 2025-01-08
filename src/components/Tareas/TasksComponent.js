@@ -4,6 +4,7 @@ import axios from "axios";
 import NewTask from "./NewTask";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import HeaderComponent from "../Header/HeaderComponent";
 
 function TasksComponent() {
   const [tasks, setTasks] = useState([]);
@@ -87,6 +88,7 @@ function TasksComponent() {
 
   return (
     <>
+      <HeaderComponent></HeaderComponent>
       <Container>
         <Table>
           <thead>
@@ -146,10 +148,10 @@ function TasksComponent() {
           </tbody>
         </Table>
         <button className="btn btn-primary me-md-2" onClick={getReport}>
-          Reporte pendiente
+          Reporte Terminado-Pendiente
         </button>
         <button className="btn btn-primary me-md-2" onClick={getPopular}>
-          Reporte popular
+          Reporte Popular
         </button>
         <button
           className="btn btn-primary me-md-2"
