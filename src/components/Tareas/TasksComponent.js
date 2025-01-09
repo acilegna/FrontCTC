@@ -61,26 +61,6 @@ function TasksComponent() {
   };
   /*  END   */
 
-  //Funciones para generar reporte api ruby on rails
-  const getPopular = () => {
-    axios
-      .get("http://127.0.0.1:3001/popularTask")
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const getReport = () => {
-    axios
-      .get("http://127.0.0.1:3001/report")
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => console.log(error));
-  };
-  // END
-
   //  obtener valor del btn que ha sido presionado
   const valueBoton = (event) => {
     setValueBtn(event.target.id);
@@ -89,9 +69,25 @@ function TasksComponent() {
   return (
     <>
       <HeaderComponent></HeaderComponent>
-      <Container>
-        <Table>
+      <Container id="margin">
+        <Table className="table-bordered">
           <thead>
+            <tr>
+              <td colspan="9">
+                <button
+                  className="btn btn-outline-success me-md-2"
+                  disabled={statusBtnNew}
+                  onClick={(event) => {
+                    setShow(true);
+                    valueBoton(event);
+                    setStatusBtnEdit(true);
+                  }}
+                  id={"1"}
+                >
+                  New Task
+                </button>
+              </td>
+            </tr>
             <tr>
               <th>id</th>
               <th>title</th>
@@ -147,24 +143,6 @@ function TasksComponent() {
             ))}
           </tbody>
         </Table>
-        <button className="btn btn-primary me-md-2" onClick={getReport}>
-          Reporte Terminado-Pendiente
-        </button>
-        <button className="btn btn-primary me-md-2" onClick={getPopular}>
-          Reporte Popular
-        </button>
-        <button
-          className="btn btn-primary me-md-2"
-          disabled={statusBtnNew}
-          onClick={(event) => {
-            setShow(true);
-            valueBoton(event);
-            setStatusBtnEdit(true);
-          }}
-          id={"1"}
-        >
-          Nueva tarea
-        </button>
 
         {/*  ENVIO DE DATOS A COMPONENTE HIJO , id de tarea para editar , 
         funcion allTasks para actualizar tabla de dtos,  valueBoton detectar boton presionado */}

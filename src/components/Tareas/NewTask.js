@@ -95,7 +95,7 @@ function NewTask({ sendId, allTasks, valueBoton, hijoAPadre }) {
   return (
     <div className="container">
       <div>
-        <h2>Agregar tareas </h2>
+        <h3>Add New Task </h3>
       </div>
       <div className="datos">
         <input
